@@ -3,10 +3,11 @@ import { AlertDialog, Button, Table, Chip, Tooltip } from "@heroui/react";
 import Link from "next/link";
 import React from "react";
 import { Eye, Edit3, Trash2 } from "lucide-react";
+import { getLoggedInRecruiterCompany } from "@/lib/api/companies";
 
 const RecruiterJobs = async () => {
-  const companyId = "Acme Corp";
-  const jobs = await getCompanyJobs(companyId);
+    const company = await getLoggedInRecruiterCompany()
+    const jobs = await getCompanyJobs(company._id) || [];
 
   return (
     <div className="w-full px-4 sm:px-8 py-6 space-y-6">
@@ -17,7 +18,7 @@ const RecruiterJobs = async () => {
             Manage Posted Jobs
           </h1>
           <p className="text-sm text-default-500">
-            View, edit, and manage all active job postings for {companyId}.
+            View, edit, and manage all active job postings for {company._id}.
           </p>
         </div>
         <Chip variant="flat" color="primary" size="md">
@@ -53,7 +54,7 @@ const RecruiterJobs = async () => {
                     </div>
                   </Table.Cell>
                   <Table.Cell className="text-sm text-default-600 py-4">
-                    {job.location}
+                    {job.location || (job.isRemote ? "Remote" : "N/A")} 
                   </Table.Cell>
                   <Table.Cell className="text-sm text-default-600 py-4">
                     {job.deadline}
