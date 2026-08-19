@@ -1,0 +1,233 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Button, Card, CardHeader, CardFooter } from '@heroui/react';
+import { At, Key, ArrowRight, CircleCheck, CircleExclamation, Eye, EyeSlash } from '@gravity-ui/icons';
+// Adjust this import path based on where your Better Auth client is initialized
+import { authClient } from '@/lib/auth-client';
+
+export default function SignInPage() {
+  const router = useRouter();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Field error states
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  // Form submit feedback states
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  // Validation Handlers
+  const validateEmail = (val) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!val) {
+      setEmailError('Email address is required');
+      return false;
+    } else if (!emailRegex.test(val)) {
+      setEmailError('Please enter a valid email address');
+      return false;
+    }
+    setEmailError('');
+    return true;
+  };
+
+  const validatePassword = (val) => {
+    if (!val) {
+      setPasswordError('Password is required');
+      return false;
+    }
+    setPasswordError('');
+    return true;
+  };
+
+  const handleEmailChange = (e) => {
+    const val = e.target.value;
+    setEmail(val);
+    if (emailError) validateEmail(val);
+  };
+
+  const handlePasswordChange = (e) => {
+    const val = e.target.value;
+    setPassword(val);
+    if (passwordError) validatePassword(val);
+  };
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    // Trigger validations on submit
+    const isEmailValid = validateEmail(email);
+    const isPasswordValid = validatePassword(password);
+
+    if (!isEmailValid || !isPasswordValid) {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await authClient.signIn.email(
+        {
+          email,
+          password,
+          callbackURL: '/', // Redirect destination after successful login
+        },
+        {
+          onRequest: () => {
+            setLoading(true);
+          },
+          onSuccess: () => {
+            setLoading(false);
+            setSuccess('Signed in successfully! Redirecting...');
+            router.push('/');
+          },
+          onError: (ctx) => {
+            setLoading(false);
+            setError(ctx?.error?.message || 'Invalid email or password.');
+          },
+        }
+      );
+    } catch (err) {
+      setLoading(false);
+      setError(err.message || 'An unexpected error occurred.');
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen items-center justify-center p-4 bg-background">
+      <Card className="w-full max-w-md p-6 shadow-lg">
+        <CardHeader className="flex flex-col gap-1 items-start px-0 pt-0 pb-4">
+          <h1 className="text-2xl font-bold">Welcome Back</h1>
+          <p className="text-small text-default-500">
+            Enter your credential to sign in to your account
+          </p>
+        </CardHeader>
+
+        <form onSubmit={handleSignIn} className="flex flex-col gap-4 py-2" noValidate>
+          {/* Email Address Field */}
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="email" className="text-sm font-medium">
+              Email Address <span className="text-danger">*</span>
+            </label>
+            <div className="relative flex items-center">
+              <At className={`absolute left-3 text-lg pointer-events-none ${emailError ? 'text-danger' : 'text-default-400'}`} />
+              <input
+                id="email"
+                required
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={handleEmailChange}
+                onBlur={(e) => validateEmail(e.target.value)}
+                className={`w-full pl-10 pr-3 py-2 border rounded-medium bg-transparent text-sm focus:outline-none focus:ring-2 ${
+                  emailError
+                    ? 'border-danger focus:ring-danger text-danger'
+                    : 'border-default-200 focus:ring-primary'
+                }`}
+              />
+            </div>
+            {emailError && (
+              <span className="text-xs text-danger flex items-center gap-1 mt-0.5">
+                <CircleExclamation className="text-xs" /> {emailError}
+              </span>
+            )}
+          </div>
+
+          {/* Password Field with Show/Hide Toggle */}
+          <div className="flex flex-col gap-1.5">
+            <div className="flex justify-between items-center">
+              <label htmlFor="password" className="text-sm font-medium">
+                Password <span className="text-danger">*</span>
+              </label>
+              <Link
+                href="/forgot-password"
+                className="text-xs text-primary hover:underline font-medium"
+              >
+                Forgot password?
+              </Link>
+            </div>
+            <div className="relative flex items-center">
+              <Key className={`absolute left-3 text-lg pointer-events-none ${passwordError ? 'text-danger' : 'text-default-400'}`} />
+              <input
+                id="password"
+                required
+                type={showPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                value={password}
+                onChange={handlePasswordChange}
+                onBlur={(e) => validatePassword(e.target.value)}
+                className={`w-full pl-10 pr-10 py-2 border rounded-medium bg-transparent text-sm focus:outline-none focus:ring-2 ${
+                  passwordError
+                    ? 'border-danger focus:ring-danger text-danger'
+                    : 'border-default-200 focus:ring-primary'
+                }`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 text-default-400 hover:text-default-600 focus:outline-none"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? (
+                  <EyeSlash className="text-lg" />
+                ) : (
+                  <Eye className="text-lg" />
+                )}
+              </button>
+            </div>
+            {passwordError && (
+              <span className="text-xs text-danger flex items-center gap-1 mt-0.5">
+                <CircleExclamation className="text-xs" /> {passwordError}
+              </span>
+            )}
+          </div>
+
+          {/* Global API Feedback Messages */}
+          {error && (
+            <div className="flex items-center gap-2 p-3 text-sm rounded-lg bg-danger-50 text-danger border border-danger-200 my-1">
+              <CircleExclamation className="text-lg shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          {success && (
+            <div className="flex items-center justify-center gap-2 p-3 text-sm rounded-lg bg-success-50 text-success border border-success-200 text-center my-1">
+              <CircleCheck className="text-lg shrink-0" />
+              <span>{success}</span>
+            </div>
+          )}
+
+          <Button
+            type="submit"
+            color="primary"
+            isLoading={loading}
+            className="w-full font-semibold mt-1"
+          >
+            Sign In
+          </Button>
+        </form>
+
+        <CardFooter className="flex justify-center px-0 pb-0 pt-4">
+          <p className="text-small text-default-500 flex items-center gap-2">
+            New in Hireloop?{' '}
+            <Link
+              href="/signup"
+              className="text-primary font-medium hover:underline inline-flex items-center gap-1"
+            >
+              Sign Up <ArrowRight className="text-sm" />
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}
