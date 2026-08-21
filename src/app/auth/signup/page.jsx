@@ -16,6 +16,8 @@ import {
 } from "@gravity-ui/icons";
 // Adjust this import path based on where your Better Auth client is initialized
 import { authClient } from "@/lib/auth-client";
+import { useRouter, useSearchParams } from "next/navigation";
+
 
 export default function SignUpPage() {
   const [name, setName] = useState("");
@@ -23,6 +25,10 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("seeker");
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
 
   // Field error states
   const [emailError, setEmailError] = useState("");
@@ -86,6 +92,8 @@ export default function SignUpPage() {
 
     setLoading(true);
 
+    const plan = role === 'seeker' ? 'seeker_free' : 'recruiter_free';
+
     try {
       await authClient.signUp.email(
         {
@@ -93,7 +101,8 @@ export default function SignUpPage() {
           password,
           name,
           role,
-          callbackURL: "/",
+          plan
+          /* callbackURL: "/", */
         },
         {
           onRequest: () => {
@@ -102,6 +111,7 @@ export default function SignUpPage() {
           onSuccess: () => {
             setLoading(false);
             setSuccess("Account created successfully! You can now sign in.");
+            router.push(redirectTo);
           },
           onError: (ctx) => {
             setLoading(false);
@@ -282,7 +292,7 @@ export default function SignUpPage() {
           <p className="text-small text-default-500 flex items-center gap-2">
             Already have an account?{" "}
             <Link
-              href="/signin"
+              href={`/auth/signin?redirect=${redirectTo}`}
               className="text-primary font-medium hover:underline inline-flex items-center gap-1"
             >
               Sign In <ArrowRight className="text-sm" />

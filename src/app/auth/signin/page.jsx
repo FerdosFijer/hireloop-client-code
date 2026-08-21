@@ -2,18 +2,21 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, Card, CardHeader, CardFooter } from '@heroui/react';
 import { At, Key, ArrowRight, CircleCheck, CircleExclamation, Eye, EyeSlash } from '@gravity-ui/icons';
 // Adjust this import path based on where your Better Auth client is initialized
 import { authClient } from '@/lib/auth-client';
 
 export default function SignInPage() {
-  const router = useRouter();
-
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
 
   // Field error states
   const [emailError, setEmailError] = useState('');
@@ -75,31 +78,27 @@ export default function SignInPage() {
     setLoading(true);
 
     try {
-      await authClient.signIn.email(
-        {
-          email,
-          password,
-          callbackURL: '/', // Redirect destination after successful login
-        },
-        {
-          onRequest: () => {
-            setLoading(true);
-          },
-          onSuccess: () => {
-            setLoading(false);
-            setSuccess('Signed in successfully! Redirecting...');
-            router.push('/');
-          },
-          onError: (ctx) => {
-            setLoading(false);
-            setError(ctx?.error?.message || 'Invalid email or password.');
-          },
-        }
-      );
-    } catch (err) {
-      setLoading(false);
-      setError(err.message || 'An unexpected error occurred.');
-    }
+  const { data, error } = await authClient.signIn.email({
+    email,
+    password,
+  });
+
+  if (error) {
+    setError(error.message || "Invalid email or password.");
+    setLoading(false);
+    return;
+  }
+
+  if (data) {
+    setSuccess("Signed in successfully! Redirecting...");
+    setLoading(false);
+    router.push("redirectTo");
+    router.refresh();
+  }
+} catch (err) {
+  setLoading(false);
+  setError(err.message || "An unexpected error occurred.");
+}
   };
 
   return (
@@ -220,7 +219,7 @@ export default function SignInPage() {
           <p className="text-small text-default-500 flex items-center gap-2">
             New in Hireloop?{' '}
             <Link
-              href="/signup"
+              href={`/auth/signup?redirect=${redirectTo}`}
               className="text-primary font-medium hover:underline inline-flex items-center gap-1"
             >
               Sign Up <ArrowRight className="text-sm" />
