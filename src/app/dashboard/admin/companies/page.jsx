@@ -14,7 +14,7 @@ const AdminCompaniesPage = async () => {
                         Companies for review
                     </h2>
                     <p className="text-sm text-neutral-500 mt-1">
-                        Total items submitted: {companies.length}
+                        Total items submitted here: {companies.length}
                     </p>
                 </div>
                 
