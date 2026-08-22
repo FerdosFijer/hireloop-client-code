@@ -31,7 +31,7 @@ export default function Unauthorized() {
             Access Denied
           </h1>
           <p className="text-sm text-slate-400">
-            You don't have permission to access this page. Please check your account role or log in with an authorized account.
+            You do not have permission to access this page. Please check your account role or log in with an authorized account.
           </p>
         </div>
 

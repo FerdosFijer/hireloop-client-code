@@ -1,11 +1,19 @@
 import { getUserSession } from "@/lib/core/session";
 import {Bell,  Bookmark,  Briefcase,  Envelope,  Gear,  House,  LayoutSideContentLeft,  Magnifier,  Person,} from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
-import { CreditCard, FileText, LayoutGrid } from "lucide-react";
+import { Building, CreditCard, FileText, LayoutGrid, Users } from "lucide-react";
 import Link from "next/link";
 
 export async function DashboardSidebar() {
   const user = await getUserSession();
+  const adminNavLinks = [
+  { icon: LayoutGrid, href: "/dashboard/admin", label: "Dashboard" },
+  { icon: Users, href: "/dashboard/admin/users", label: "Users" },
+  { icon: Building, href: "/dashboard/admin/companies", label: "Companies" },
+  { icon: Briefcase, href: "/dashboard/admin/jobs", label: "Jobs" },
+  { icon: CreditCard, href: "/dashboard/admin/payments", label: "Payments" },
+  { icon: Gear, href: "/dashboard/admin/settings", label: "Settings" },
+];
   const recruiterNavLinks = [
     { icon: House,href:"/dashboard/recruiter", label: "Home" },
     { icon: Magnifier,href:"/dashboard/recruiter/jobs", label: "Jobs" },
@@ -26,6 +34,7 @@ export async function DashboardSidebar() {
   const navLinksMap = {
     seeker: seekerNavLinks,
     recruiter: recruiterNavLinks,
+    admin: adminNavLinks,
   }
 
   const navItems = navLinksMap[user?.role || 'seeker']
