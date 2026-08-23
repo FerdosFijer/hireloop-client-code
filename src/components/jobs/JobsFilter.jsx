@@ -124,7 +124,7 @@ export default function JobFilter({
                 <Label>Remote Only</Label>
               </ListBox.Item>
               <ListBox.Item id="onsite" className="p-2 hover:bg-white/5 rounded-lg cursor-pointer">
-                <Label>On-Site Only</Label>
+                <Label>On-Site only</Label>
               </ListBox.Item>
             </ListBox>
           </Select.Popover>
