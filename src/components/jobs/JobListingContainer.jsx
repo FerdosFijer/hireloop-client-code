@@ -3,17 +3,37 @@
 import { useState, useMemo, useEffect } from 'react';
 import JobCard from "@/components/jobs/JobCard";
 import JobFilter from './JobsFilter';
+import { useRouter } from 'next/navigation';
 
 
-export default function JobListingContainer({ jobs = [] }) {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
-  const [typeFilter, setTypeFilter] = useState('all');
-  const [remoteFilter, setRemoteFilter] = useState('all');
+export default function JobListingContainer({ jobs , filters }) {
+  const [searchQuery, setSearchQuery] = useState(filters.search);
+  const [categoryFilter, setCategoryFilter] = useState(filters.category || 'all');
+  const [typeFilter, setTypeFilter] = useState(filters.type ||'all');
+  const [remoteFilter, setRemoteFilter] = useState(filters.isRemote || 'all');
+
+  const router = useRouter();
 
   useEffect(()=>{
-    const searchParam = new URLSearchParams()
-  },[])
+    const sp = new URLSearchParams() 
+    if(searchQuery){
+      sp.set('search', searchQuery)
+    }
+    if(categoryFilter !== 'all' ){
+      sp.set('category', categoryFilter)
+    }
+    if(typeFilter !== 'all' ){
+      sp.set('type', typeFilter)
+    }
+    if(remoteFilter !== 'all'){
+      sp.set('isRemote', remoteFilter)
+    }
+    console.log("URLSearchParams string:", sp.toString()); 
+    const path = `?${sp.toString()}`
+    router.push(path);
+  },[router,searchQuery, typeFilter, categoryFilter, remoteFilter])
+
+ 
 
 
 
