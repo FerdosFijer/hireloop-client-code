@@ -1,4 +1,3 @@
-import JobCard from "@/components/jobs/JobCard";
 import JobListingContainer from "@/components/jobs/JobListingContainer";
 import { getJobs } from "@/lib/api/jobs";
 
@@ -7,7 +6,7 @@ export default async function JobsPage({searchParams}) {
   const querySearch = new URLSearchParams(filters)
   const queryString = querySearch.toString()
 
-  const jobs = (await getJobs(queryString)) || [];
+  const { jobs, total } =await getJobs(queryString) ;
 
   return (
     <main className="min-h-screen bg-black text-white p-6 md:p-12">
@@ -23,12 +22,12 @@ export default async function JobsPage({searchParams}) {
             </p>
           </div>
           <span className="text-sm font-medium text-zinc-400 bg-white/5 px-3 py-1 rounded-full border border-white/10">
-            Total Jobs: {jobs.length}
+            Total Jobs: {total}
           </span>
         </div>
 
         {/* Interactive Search & Filter Grid Wrapper */}
-        <JobListingContainer filters={filters} jobs={jobs} />
+        <JobListingContainer filters={filters} jobs={jobs || []} total={total} />
       </div>
     </main>
   );
