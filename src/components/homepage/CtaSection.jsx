@@ -5,14 +5,7 @@ export default function CtaSection() {
     <section className="relative bg-black text-white py-28 sm:py-36 px-4 overflow-hidden flex flex-col items-center justify-center min-h-[500px]">
       
       {/* Background Image Container */}
-      <div className="absolute inset-0 z-0 flex items-center justify-center">
-        {/* Replace `/images/cta-bg.png` with the relative path to your image in your /public folder */}
-        <img
-          src="/images/cta-bg.png"
-          alt="Background grid hemisphere"
-          className="w-full h-full object-cover object-bottom pointer-events-none opacity-90"
-        />
-      </div>
+      <div className=" absolute inset-0 bg-cover bg-center bg-no-repeat opacity-90 " style={{ backgroundImage: "url(https://static.vecteezy.com/system/resources/thumbnails/007/448/799/small/abstract-earth-in-space-galaxy-3d-rendering-elements-of-this-image-furnished-by-nasa-photo.jpg)" }}></div>
 
       {/* Content Container (Layered above background) */}
       <div className="relative z-10 max-w-3xl mx-auto text-center flex flex-col items-center space-y-6">
