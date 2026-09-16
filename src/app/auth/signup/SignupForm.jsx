@@ -22,6 +22,7 @@ import {
 
 import { signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { EmailSend } from "@/lib/actions/Email";
 
 export default function SignupForm({ redirectTo = "/" }) {
     // Form fields
@@ -69,7 +70,7 @@ export default function SignupForm({ redirectTo = "/" }) {
                 : "recruiter_free";
 
         try {
-            const { error: authError } = await signUp.email({
+            const {data, error: authError } = await signUp.email({
                 email,
                 password,
                 name,
@@ -85,7 +86,14 @@ export default function SignupForm({ redirectTo = "/" }) {
                 return;
             }
 
+            if (!data) {
+                setError("Account was not created.");
+                return;
+            }
+
             setSuccess("Account created successfully!");
+
+            await EmailSend(email, name);
 
             setName("");
             setEmail("");
