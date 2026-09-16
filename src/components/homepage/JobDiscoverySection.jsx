@@ -21,7 +21,7 @@ export default function JobDiscoverySection({ jobs = [] }) {
 
         {/* Heading */}
         <h2 className="text-3xl sm:text-5xl font-medium text-center tracking-tight text-white mb-12 leading-tight">
-          The roles you'd never <br /> find by searching
+          The roles you would never <br /> find by searching
         </h2>
 
         {/* Job Cards Grid */}

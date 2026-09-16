@@ -168,7 +168,7 @@ export default function PlansPage() {
 
               <div>
                 <h3 className="text-xl font-bold text-white">{plan.name}</h3>
-                <p className="text-xs text-zinc-400 mt-1 min-h-[32px]">
+                <p className="text-xs text-zinc-400 mt-1 min-h-8">
                   {plan.description}
                 </p>
 

@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function CtaSection() {
   return (
-    <section className="relative bg-black text-white py-28 sm:py-36 px-4 overflow-hidden flex flex-col items-center justify-center min-h-[500px]">
+    <section className="relative bg-black text-white py-28 sm:py-36 px-4 overflow-hidden flex flex-col items-center justify-center min-h-125">
       
       {/* Background Image Container */}
       <div className=" absolute inset-0 bg-cover bg-center bg-no-repeat opacity-90 " style={{ backgroundImage: "url(https://wallpaperaccess.com/full/4045199.jpg)" }}></div>

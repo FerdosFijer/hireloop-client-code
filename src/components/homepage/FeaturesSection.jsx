@@ -85,7 +85,7 @@ export default function FeaturesSection() {
             return (
               <div key={feature.id} className="flex items-start gap-4">
                 {/* Square Icon Container */}
-                <div className="w-14 h-14 rounded-xl bg-[#131418] border border-white/10 flex items-center justify-center flex-shrink-0 shadow-inner">
+                <div className="w-14 h-14 rounded-xl bg-[#131418] border border-white/10 flex items-center justify-center shrink-0 shadow-inner">
                   <IconComponent className="w-6 h-6 text-[#f580e9]" />
                 </div>
 

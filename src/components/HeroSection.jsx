@@ -13,15 +13,15 @@ const trendingJobs = [
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-[400px] w-full overflow-hidden bg-[#050507] px-4 py-20 sm:px-6 lg:px-8">
+    <section className="relative min-h-100 w-full overflow-hidden bg-[#050507] px-4 py-20 sm:px-6 lg:px-8">
       {/* Background glow */}
-      <div className="pointer-events-none absolute left-1/2 top-[-180px] h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-[#5546ff]/20 blur-[120px] sm:h-[650px] sm:w-[650px]" />
+      <div className="pointer-events-none absolute left-1/2 top-45 h-125 w-125 -translate-x-1/2 rounded-full bg-[#5546ff]/20 blur-[120px] sm:h-[650px] sm:w-[650px]" />
 
       {/* Secondary glow */}
-      <div className="pointer-events-none absolute left-1/2 h-[400px] w-[700px] -translate-x-1/2 rounded-full bg-[#7c3aed]/10 blur-[120px]" />
+      <div className="pointer-events-none absolute left-1/2 h-100 w-175 -translate-x-1/2 rounded-full bg-[#7c3aed]/10 blur-[120px]" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex min-h-[0px] w-full max-w-6xl flex-col items-center justify-center text-center mt-8">
+      <div className="relative z-10 mx-auto flex min-h-0 w-full max-w-6xl flex-col items-center justify-center text-center mt-8">
         {/* Badge */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#7166ff]/20 bg-[#7166ff]/10 px-4 py-2 text-xs font-medium text-[#aaa3ff] shadow-[0_0_30px_rgba(113,102,255,0.08)] sm:text-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-[#8b82ff] shadow-[0_0_10px_#8b82ff]" />
@@ -32,7 +32,7 @@ const HeroSection = () => {
         {/* Heading */}
         <h1 className="max-w-4xl text-5xl font-semibold leading-[1.05] tracking-[-0.03em] text-white">
           Find Your{" "}
-          <span className="bg-gradient-to-r from-[#8d84ff] via-[#b2aaff] to-[#7166ff] bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-[#8d84ff] via-[#b2aaff] to-[#7166ff] bg-clip-text text-transparent">
             Dream Job
           </span>{" "}
           Today
@@ -46,7 +46,7 @@ const HeroSection = () => {
         </p>
 
         {/* Search Box */}
-        <div className="mt-8 flex w-full max-w-4xl flex-col gap-3 rounded-2xl border border-white/[0.08] bg-[#111113]/80 p-3 shadow-[0_20px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:flex-row sm:rounded-full sm:p-2">
+        <div className="mt-8 flex w-full max-w-4xl flex-col gap-3 rounded-2xl border border-white/8 bg-[#111113]/80 p-3 shadow-[0_20px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:flex-row sm:rounded-full sm:p-2">
           <div className="relative flex w-full items-center">
             <span className="pointer-events-none absolute left-4 z-10 flex items-center justify-center">
               <Magnifier className="h-4 w-4 text-white/40" />

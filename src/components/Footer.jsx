@@ -138,14 +138,14 @@ const Footer = () => {
         </div>
 
         {/* ================= BOTTOM ================= */}
-        <div className="mt-8 flex flex-col gap-4 border-t border-white/[0.06] pt-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-8 flex flex-col gap-4 border-t border-white/6 pt-4 sm:flex-row sm:items-center sm:justify-between">
 
           {/* Social Media */}
           <div className="flex gap-2">
             <Link
               href="#"
               aria-label="Facebook"
-              className="flex h-8 w-8 items-center justify-center rounded-md bg-white/[0.04] text-gray-500 transition hover:bg-white/10 hover:text-white"
+              className="flex h-8 w-8 items-center justify-center rounded-md bg-white/4 text-gray-500 transition hover:bg-white/10 hover:text-white"
             >
               <LogoFacebook className="h-4 w-4" />
             </Link>
@@ -153,7 +153,7 @@ const Footer = () => {
             <Link
               href="#"
               aria-label="LinkedIn"
-              className="flex h-8 w-8 items-center justify-center rounded-md bg-white/[0.04] text-gray-500 transition hover:bg-white/10 hover:text-white"
+              className="flex h-8 w-8 items-center justify-center rounded-md bg-white/4 text-gray-500 transition hover:bg-white/10 hover:text-white"
             >
               <LogoLinkedin className="h-4 w-4" />
             </Link>
@@ -161,7 +161,7 @@ const Footer = () => {
             <Link
               href="#"
               aria-label="Github"
-              className="flex h-8 w-8 items-center justify-center rounded-md bg-white/[0.04] text-gray-500 transition hover:bg-white/10 hover:text-white"
+              className="flex h-8 w-8 items-center justify-center rounded-md bg-white/4 text-gray-500 transition hover:bg-white/10 hover:text-white"
             >
               <LogoGithub className="h-4 w-4" />
             </Link>
